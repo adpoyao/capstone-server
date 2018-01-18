@@ -7,7 +7,7 @@ const expect = chai.expect;
 
 chai.use(chaiHttp);
 
-describe('User enpoint tests', function() {
+describe('User endpoint tests', function() {
 
     before(function() {
         return runServer();
@@ -37,14 +37,14 @@ describe('User enpoint tests', function() {
         const newUser = {firstName: 'John', lastName: 'Doe', className: 'BIO103'};
         return chai.request(app)
           .post('/api/newUser')
-          .send(newItem)
+          .send(newUser)
           .then(function(res) {
             expect(res).to.have.status(201);
             expect(res).to.be.json;
             expect(res.body).to.be.a('object');
             expect(res.body).to.include.keys('id', 'firstName', 'lastName', 'className');
             expect(res.body.id).to.not.equal(null);
-            expect(res.body).to.deep.equal(Object.assign(newItem, {id: res.body.id}));
+            expect(res.body).to.deep.equal(Object.assign(newUser, {id: res.body.id}));
           });
       });
 

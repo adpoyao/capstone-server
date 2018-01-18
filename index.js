@@ -1,9 +1,12 @@
+'use strict';
+
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 
 const {PORT, CLIENT_ORIGIN} = require('./config');
 const {dbConnect} = require('./db-mongoose');
+const mongoose = require('mongoose');
 // const {dbConnect} = require('./db-knex');
 
 const app = express();
@@ -31,9 +34,24 @@ function runServer(port = PORT) {
         });
 }
 
+function closeServer() {
+    return mongoose.disconnect().then(() => {
+      return new Promise((resolve, reject) => {
+        console.log('Closing server');
+        server.close(err => {
+          if (err) {
+            return reject(err);
+          }
+          resolve();
+        });
+      });
+    });
+  }
+  
+
 if (require.main === module) {
     dbConnect();
     runServer();
 }
 
-module.exports = {app};
+module.exports = {app, runServer, closeServer};
