@@ -7,7 +7,7 @@ const expect = chai.expect;
 
 chai.use(chaiHttp);
 
-describe('Users', function() {
+describe('User enpoint tests', function() {
 
     before(function() {
         return runServer();
